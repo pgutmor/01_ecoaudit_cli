@@ -1,6 +1,6 @@
 # =====================================================================
 # EcoAudit CLI - Módulo Principal
-# Autores: [Nombre Alumno 1] & [Nombre Alumno 2]
+# Autores: [pgutmor] & [pgarmen]
 # =====================================================================
 
 while True:
