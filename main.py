@@ -3,6 +3,8 @@
 # Autores: [pgutmor] & [pgarmen]
 # =====================================================================
 
+from calculadora import estimar_consumo_wh, calcular_huella_co2
+
 while True:
     print("\n=========================================")
     print(" 🌿 ECOAUDIT CLI - MENÚ PRINCIPAL 🌿 ")
