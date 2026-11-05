@@ -11,10 +11,12 @@ def estimar_consumo_wh(potencia_w: float, horas_uso: float, iteraciones: int = 1
 
 
 def calcular_huella_co2(consumo_wh: float, factor_emision: float = 0.23) -> float:
-    """Calcula la huella de carbono en kg de CO2.
+    """Calcula la huella de carbono a partir del consumo energético.
 
-    Convierte el consumo de Wh a kWh y lo multiplica por el factor de emisión.
+    Convierte el consumo de Wh a kWh y multiplica por el factor de emisión.
     """
-    consumo_kwh = consumo_wh / 1000.0
-    huella_co2 = consumo_kwh * factor_emision
-    return huella_co2
+    kwh = consumo_wh / 1000.0
+    emisiones = kwh * factor_emision
+    return emisiones
+
+
