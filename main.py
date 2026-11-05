@@ -31,7 +31,7 @@ while True:
         try:
             potencia = float(input("Potencia consumida en Vatios (W): "))
             horas = float(input("Horas de uso diario: "))
-            num_iter = int(input("Introduce número de iteraciones: "))
+            iteraciones = int(input("Introduce número de iteraciones: "))
 
             # Validación de potencia
             if potencia <= 0:
@@ -44,14 +44,14 @@ while True:
                 continue
 
             # Validación de iteraciones
-            if num_iter < 0:
+            if iteraciones < 0:
                 print("⚠️ Las iteraciones no pueden ser menores que 0.")
                 continue
 
-            print(f"✔️ Configurado con éxito para {num_iter} iteraciones.")
+            print(f"✔️ Configurado con éxito para {iteraciones} iteraciones.")
 
             # Cálculo del consumo energético
-            consumo = estimar_consumo_wh(potencia, horas, num_iter)
+            consumo = estimar_consumo_wh(potencia, horas, iteraciones)
 
             # Cálculo de la huella de carbono
             huella = calcular_huella_co2(consumo)
@@ -61,11 +61,32 @@ while True:
             print(f"   • Consumo total: {consumo:.2f} Wh")
             print(f"   • Huella de carbono estimada: {huella:.4f} g CO2")
 
+            # Guardado persistente en el archivo CSV
+            with open("auditorias.csv", mode="a", encoding="utf-8") as archivo:
+                archivo.write(
+                    f"{proceso},{potencia},{horas},{iteraciones},{consumo:.2f},{huella:.4f}\n"
+                )
+
+            print("💾 Registro guardado con éxito en 'auditorias.csv'.")
+
         except ValueError:
             print("⚠️ Error de formato: introduce valores numéricos válidos.")
 
     elif opcion == 2:
-        print("\n[OPCIÓN 2] Consultando registros históricos...")
+        print("\n================ HISTORIAL DE AUDITORÍAS ================")
+
+        try:
+            # Abrimos el archivo CSV en modo lectura
+            with open("auditorias.csv", mode="r", encoding="utf-8") as archivo:
+
+                # Leemos todo el contenido
+                contenido = archivo.read()
+
+                # Mostramos el histórico
+                print(contenido)
+
+        except FileNotFoundError:
+            print("ℹ️ Aún no existen registros. Realiza una auditoría primero.")
 
     elif opcion == 3:
         print("\nSaliendo de EcoAudit CLI. ¡Hasta pronto!")
@@ -73,3 +94,4 @@ while True:
 
     else:
         print("⚠️ Opción no válida. Elija un número entre 1 y 3.")
+
