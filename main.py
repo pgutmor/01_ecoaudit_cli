@@ -16,7 +16,6 @@ while True:
 
     entrada = input("\nSeleccione una opción (1-3): ").strip()
 
-    # Validación de la opción introducida
     try:
         opcion = int(entrada)
     except ValueError:
@@ -33,57 +32,64 @@ while True:
             horas = float(input("Horas de uso diario: "))
             iteraciones = int(input("Introduce número de iteraciones: "))
 
-            # Validación de potencia
             if potencia <= 0:
                 print("⚠️ La potencia debe ser mayor que 0.")
                 continue
 
-            # Validación de horas
             if horas < 0:
                 print("⚠️ Las horas no pueden ser negativas.")
                 continue
 
-            # Validación de iteraciones
             if iteraciones < 0:
-                print("⚠️ Las iteraciones no pueden ser menores que 0.")
+                print("⚠️ Las iteraciones no pueden ser negativas.")
                 continue
 
-            print(f"✔️ Configurado con éxito para {iteraciones} iteraciones.")
+            # SIMULACIÓN ITERATIVA PASO A PASO
+            print("\nIniciando simulación ciclo a ciclo...")
 
-            # Cálculo del consumo energético
+            consumo_ciclo = estimar_consumo_wh(potencia, horas, 1)
+            consumo_acumulado = 0.0
+            ciclo = 1
+
+            while ciclo <= iteraciones:
+                consumo_acumulado = consumo_acumulado + consumo_ciclo
+                print(
+                    f" [Ciclo {ciclo}] Consumo acumulado parcial: "
+                    f"{consumo_acumulado:.2f} Wh"
+                )
+                ciclo = ciclo + 1
+
+            # Cálculo final
             consumo = estimar_consumo_wh(potencia, horas, iteraciones)
-
-            # Cálculo de la huella de carbono
             huella = calcular_huella_co2(consumo)
 
-            # Mostrar resultados
             print(f"\n✅ Resultados calculados para '{proceso}':")
             print(f"   • Consumo total: {consumo:.2f} Wh")
-            print(f"   • Huella de carbono estimada: {huella:.4f} g CO2")
+            print(f"   • Huella de carbono: {huella:.4f} g CO2")
 
-            # Guardado persistente en el archivo CSV
-            with open("auditorias.csv", mode="a", encoding="utf-8") as archivo:
+            # Guardado en CSV
+            with open("auditoria.csv", mode="a", encoding="utf-8") as archivo:
                 archivo.write(
-                    f"{proceso},{potencia},{horas},{iteraciones},{consumo:.2f},{huella:.4f}\n"
+                    f"{proceso},{potencia},{horas},{iteraciones},"
+                    f"{consumo:.2f},{huella:.4f}\n"
                 )
 
-            print("💾 Registro guardado con éxito en 'auditorias.csv'.")
+            print("💾 Registro guardado correctamente.")
 
         except ValueError:
-            print("⚠️ Error de formato: introduce valores numéricos válidos.")
+            print("⚠️ Error: introduce valores numéricos válidos.")
 
     elif opcion == 2:
-        print("\n================ HISTORIAL DE AUDITORÍAS ================")
+        print("\n========== HISTORIAL DE AUDITORÍAS ==========")
 
         try:
-            # Abrimos el archivo CSV en modo lectura
-            with open("auditorias.csv", mode="r", encoding="utf-8") as archivo:
-
-                # Leemos todo el contenido
+            with open("auditoria.csv", mode="r", encoding="utf-8") as archivo:
                 contenido = archivo.read()
 
-                # Mostramos el histórico
-                print(contenido)
+                if contenido:
+                    print(contenido)
+                else:
+                    print("ℹ️ El archivo está vacío.")
 
         except FileNotFoundError:
             print("ℹ️ Aún no existen registros. Realiza una auditoría primero.")
@@ -94,4 +100,5 @@ while True:
 
     else:
         print("⚠️ Opción no válida. Elija un número entre 1 y 3.")
+
 
