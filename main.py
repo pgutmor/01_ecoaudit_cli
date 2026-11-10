@@ -1,3 +1,5 @@
+# COmentario de prueba
+
 
 # =====================================================================
 # EcoAudit CLI - Módulo Principal
