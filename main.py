@@ -1,6 +1,3 @@
-# COmentario de prueba
-
-
 # =====================================================================
 # EcoAudit CLI - Módulo Principal
 # Autores: [pgutmor] & [pgarmen]
@@ -10,7 +7,7 @@ from calculadora import estimar_consumo_wh, calcular_huella_co2
 
 while True:
     print("\n=========================================")
-    print(" 🌿 ECOAUDIT CLI - MENÚ PRINCIPAL 🌿 ")
+    print("  🌿 ECOAUDIT CLI - MENÚ PRINCIPAL 🌿 ")
     print("=========================================")
     print("1. Realizar nueva auditoría")
     print("2. Consultar histórico")
@@ -102,5 +99,8 @@ while True:
 
     else:
         print("⚠️ Opción no válida. Elija un número entre 1 y 3.")
+
+
+
 
 
